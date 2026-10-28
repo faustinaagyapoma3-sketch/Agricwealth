@@ -1,7 +1,7 @@
 
 // Configure these public frontend values. Never put a Paystack secret or Supabase service-role key here.
-const SUPABASE_URL = 'https://YOUR_PROJECT.supabase.co';
-const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+const SUPABASE_URL = 'https://zfhwfasifobxjpnevwzo.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_4bAI-XyR8TFMwNJqit8xOg_iTlJxm5I';
 const API_BASE = 'https://YOUR-RENDER-SERVICE.onrender.com';
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 let session = null, currentView = 'home', authMode = 'login', selectedMethod = 'mtn_momo', adminSection = 'withdrawals';
