@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#ffffff"><title>AgriHarvest | Agricultural Projects</title>
+<link rel="stylesheet" href="./styles.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="#home"><span class="shield">◆</span><span>AgriHarvest</span></a>
+  <div class="head-actions"><button class="round" id="notifications" aria-label="Notifications">♟</button><button class="round orange" id="messages" aria-label="Messages">▰</button><button class="balance-pill" data-view="wallet">▣ <span id="headerBalance">GH₵ 0.00</span></button></div>
+</header>
+<main id="app">
+<section id="authView" class="auth-wrap">
+  <div class="auth-card">
+    <p class="eyebrow">AGRICULTURAL PROJECTS</p><h1 id="authTitle">Welcome back</h1><p class="muted" id="authSubtitle">Sign in to manage your account.</p>
+    <form id="authForm">
+      <label id="nameLabel" class="hidden">Full name<input id="fullName" autocomplete="name" placeholder="Your full name"></label>
+      <label>Email address<input id="email" type="email" autocomplete="email" required placeholder="you@example.com"></label>
+      <label>Password<input id="password" type="password" autocomplete="current-password" required minlength="8" placeholder="At least 8 characters"></label>
+      <button class="primary full" id="authSubmit">Sign in</button>
+    </form>
+    <button class="link-btn" id="forgot">Forgot password?</button>
+    <p class="muted center"><span id="switchText">New here?</span> <button class="link-btn" id="switchAuth">Create account</button></p>
+    <p class="tiny">Investment projects involve risk. No return is guaranteed. Read project terms before committing funds.</p>
+  </div>
+</section>
+
+<section id="dashboardView" class="hidden">
+  <div class="live-panel">
+    <div class="panel-heading"><strong><span class="live-dot"></span> Live Activities</strong><span class="muted">Account activity</span></div>
+    <div id="activityList" class="activity-list"><div class="empty-state">Your verified transactions will appear here.</div></div>
+  </div>
+  <div class="stats-strip"><span>♟ <span>Joined: <b id="joinedCount">—</b></span></span><span>▤ <span>Verified payouts: <b id="paidTotal">GH₵ 0.00</b></span></span></div>
+  <div class="quick-actions">
+    <button class="action-tile selected" data-view="deposit"><span class="action-icon">↓</span><b>Deposit</b></button>
+    <button class="action-tile" data-view="withdraw"><span class="action-icon gray">↑</span><b>Withdraw</b></button>
+  </div>
+  <div class="notice"><div><strong>Need help with a payment?</strong><p>If a verified deposit is not reflected, contact support and include your Paystack reference. Never share your password or OTP.</p></div><button class="orange-btn" id="supportBtn">Contact support</button></div>
+  <div class="metric-grid">
+    <div class="metric"><span>INVESTED</span><strong id="investedValue">GH₵ 0.00</strong><small>Verified investment allocations</small></div>
+    <div class="metric blue"><span>VERIFIED EARNINGS</span><strong id="profitValue">GH₵ 0.00</strong><small>Only recorded, verified credits</small></div>
+  </div>
+  <h2 class="section-title">⚡ Explore Projects</h2>
+  <div id="projectList" class="project-grid">
+    <article class="project-card"><div class="project-photo poultry"></div><div class="project-content"><h3>Poultry Starter</h3><p>Agricultural poultry project. Review its terms and risks before committing funds.</p><span class="range">GH₵20–GH₵1,000</span><button class="primary full" data-view="projects">View project</button></div></article>
+    <article class="project-card"><div class="project-photo goats"></div><div class="project-content"><h3>Boer Goat</h3><p>Livestock project. No earnings are promised or credited automatically.</p><span class="range">GH₵20–GH₵1,000</span><button class="primary full" data-view="projects">View project</button></div></article>
+    <article class="project-card"><div class="project-photo cow"></div><div class="project-content"><h3>Dairy Cow</h3><p>Dairy cattle project. Read the actual contract and risk information before investing.</p><span class="range">GH₵20–GH₵1,000</span><button class="primary full" data-view="projects">View project</button></div></article>
+  </div>
+</section>
+
+<section id="walletView" class="hidden page-view">
+  <div class="page-title"><button class="back" data-view="home">←</button><h1>My Wallet</h1></div>
+  <div class="wallet-card"><span>AVAILABLE BALANCE</span><strong id="walletBalance">GH₵ 0.00</strong><div class="wallet-glyph">▰</div><small id="reservedLabel">Reserved: GH₵ 0.00</small></div>
+  <div class="tabs"><button id="depositTab" class="tab active">Deposit</button><button id="withdrawTab" class="tab">Withdraw</button></div>
+  <div id="depositPane" class="wallet-pane">
+    <h3>DEPOSIT METHOD</h3><div class="payment-brand selected"><span class="paystack-mark">P</span><b>Paystack Checkout</b><small>Card and supported mobile money</small></div>
+    <form id="depositForm" class="form-card"><label>Amount (GH₵)<input id="depositAmount" type="number" min="1" max="100000" step="0.01" required placeholder="e.g. 100.00"></label><p class="tiny">You will be redirected to Paystack to complete payment. Your balance is credited only after server-side verification.</p><button class="primary full">Continue to Paystack</button></form>
+  </div>
+  <div id="withdrawPane" class="wallet-pane hidden">
+    <h3>WITHDRAWAL METHOD</h3>
+    <div class="method-grid">
+      <button class="method selected" data-method="mtn_momo"><span class="method-logo mtn">▣<small>MoMo</small></span><b>MTN MoMo</b></button>
+      <button class="method" data-method="telecel_cash"><span class="method-logo telecel">t</span><b>Telecel Cash</b></button>
+      <button class="method" data-method="at_money"><span class="method-logo at">at<small>Money</small></span><b>AT Money</b></button>
+      <button class="method" data-method="bank"><span class="method-logo bank">▤</span><b>Bank Transfer</b></button>
+    </div>
+    <form id="withdrawForm" class="form-card">
+      <label>Withdrawal amount (GH₵)<input id="withdrawAmount" type="number" min="1" step="0.01" required placeholder="0.00"></label>
+      <label>Mobile Number / Account Number<input id="payoutNumber" required minlength="5" placeholder="0XXXXXXXXX"></label>
+      <label>Account Name<input id="payoutName" required minlength="2" placeholder="Name on the account"></label>
+      <label id="bankNameWrap" class="hidden">Bank Name<input id="bankName" placeholder="Select or enter your bank"></label>
+      <p class="tiny">Requests are reviewed manually. A request is not proof of payment. Reserved funds are released if the request is rejected. Never enter your PIN or OTP here.</p>
+      <button class="primary full">Submit withdrawal request</button>
+    </form>
+    <h3 class="subheading">YOUR WITHDRAWAL REQUESTS</h3><div id="withdrawalList" class="list-card"><div class="empty-state">Sign in to view your requests.</div></div>
+  </div>
+</section>
+
+<section id="profileView" class="hidden page-view">
+  <div class="page-title"><h1>My Profile</h1></div>
+  <div class="form-card"><div class="profile-avatar">●</div><h2 id="profileName">Your profile</h2><p id="profileEmail" class="muted"></p><label>Full name<input id="profileFullName" placeholder="Full name"></label><label>Phone number<input id="profilePhone" placeholder="0XXXXXXXXX"></label><button class="primary full" id="saveProfile">Save profile</button><button class="outline full" id="signOut">Sign out</button></div>
+  <div class="notice"><p>For account safety, never share your password, payment PIN or one-time verification codes.</p></div>
+</section>
+
+<section id="projectsView" class="hidden page-view">
+  <div class="page-title"><button class="back" data-view="home">←</button><h1>Investment Projects</h1></div>
+  <p class="muted">Review each project's verified terms, funding purpose, duration, fees and risks before deciding. The current project catalogue does not promise a return.</p>
+  <div id="projectsPageList" class="project-grid"></div>
+</section>
+
+<section id="adminView" class="hidden page-view">
+  <div class="page-title"><h1>Admin Console</h1></div><p class="tiny">Restricted to authorized administrators. Confirm real payouts outside this system before recording completion.</p>
+  <div class="admin-tabs"><button data-admin="withdrawals" class="active">Withdrawals</button><button data-admin="deposits">Deposits</button><button data-admin="audit-logs">Audit logs</button></div>
+  <div id="adminContent" class="list-card">Loading admin records…</div>
+</section>
+</main>
+
+<nav class="bottom-nav">
+  <button data-view="home" class="nav-item active"><span>◆</span>Home</button>
+  <button data-view="wallet" class="nav-item"><span>▰</span>Wallet</button>
+  <button data-view="profile" class="nav-item"><span>●</span>Profile</button>
+</nav>
+<div id="toast" class="toast" role="status"></div>
+<script src="./app.js"></script>
+</body></html>
